@@ -1,1 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond Exams — A Student Petition</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1a2e; --cream: #f5f0e8; --sage: #4a7c59;
+    --sage-light: #6aab79; --gold: #c8962a; --paper: #faf7f0; --muted: #7a7060;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
 
+  .hero { min-height: 100vh; display: grid; place-items: center; position: relative; background: var(--ink); overflow: hidden; padding: 3rem 1.5rem; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 20% 80%, rgba(74,124,89,0.25) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 20%, rgba(200,150,42,0.15) 0%, transparent 60%); }
+  .noise { position: absolute; inset: 0; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
+  .hero-inner { position: relative; z-index: 1; max-width: 780px; text-align: center; }
+  .tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage-light); border: 1px solid rgba(106,171,121,0.4); padding: 0.4rem 1rem; border-radius: 2rem; margin-bottom: 2rem; animation: fadeUp 0.6s ease both; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 900; line-height: 1.0; color: var(--cream); margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero h1 em { font-style: italic; color: var(--sage-light); }
+  .hero p { font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 300; color: rgba(245,240,232,0.7); max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7; animation: fadeUp 0.6s 0.2s ease both; }
+  .cta-btn { display: inline-block; background: var(--sage); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.05em; padding: 1rem 2.5rem; border-radius: 3rem; text-decoration: none; transition: background 0.2s, transform 0.2s; animation: fadeUp 0.6s 0.3s ease both; }
+  .cta-btn:hover { background: var(--sage-light); transform: translateY(-2px); }
+
+  .counter-bar { background: var(--paper); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 1.5rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .counter-bar .count { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--sage); }
+  .counter-bar .label { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+  .progress-track { width: min(400px, 90%); margin: 0.8rem auto 0; height: 4px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--sage); border-radius: 2px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+
+  .content { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 1rem; }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 1.5rem; line-height: 1.2; }
+  .petition-body { font-size: 1.05rem; line-height: 1.85; color: #2e2e2e; }
+  .petition-body p { margin-bottom: 1.4rem; }
+  .petition-body strong { color: var(--ink); font-weight: 500; }
+  .reasons { display: grid; gap: 1rem; margin: 2.5rem 0; }
+  .reason-card { background: var(--paper); border: 1px solid rgba(0,0,0,0.06); border-left: 3px solid var(--sage); border-radius: 0.5rem; padding: 1.2rem 1.5rem; }
+  .reason-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--ink); }
+  .reason-card p { font-size: 0.92rem; color: var(--muted); line-height: 1.6; margin: 0; }
+  .divider { width: 48px; height: 2px; background: var(--sage); margin: 1.5rem 0 2rem; }
+
+  .form-section { background: var(--ink); padding: 4rem 1.5rem; }
+  .form-inner { max-width: 560px; margin: 0 auto; }
+  .form-inner .section-label { color: var(--sage-light); }
+  .form-inner h2 { color: var(--cream); }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(245,240,232,0.6); margin-bottom: 0.4rem; }
+  .form-group input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 0.5rem; padding: 0.85rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; color: var(--cream); outline: none; transition: border-color 0.2s; }
+  .form-group input:focus { border-color: var(--sage-light); }
+  .form-group input::placeholder { color: rgba(245,240,232,0.3); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+  .sign-btn { width: 100%; background: var(--sage); color: #fff; border: none; border-radius: 0.5rem; padding: 1rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s, transform 0.1s; }
+  .sign-btn:hover { background: var(--sage-light); transform: translateY(-1px); }
+  .sign-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .privacy-note { font-size: 0.78rem; color: rgba(245,240,232,0.35); margin-top: 0.8rem; text-align: center; }
+  .error-msg { color: #ff6b6b; font-size: 0.85rem; margin-top: 0.5rem; text-align: center; display: none; }
+  .success-toast { display: none; background: var(--sage); color: #fff; padding: 1rem 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.95rem; text-align: center; animation: fadeUp 0.4s ease; }
+
+  .signatures-section { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem; }
+  .sig-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 1.5rem; }
+  .sig-chip { background: var(--paper); border: 1px solid rgba(0,0,0,0.06); border-radius: 0.4rem; padding: 0.7rem 1rem; font-size: 0.85rem; color: var(--ink); display: flex; align-items: center; gap: 0.5rem; animation: fadeUp 0.3s ease; }
+  .sig-chip .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--sage); color: #fff; font-size: 0.7rem; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; }
+  .sig-name { font-weight: 500; }
+  .sig-school { font-size: 0.75rem; color: var(--muted); }
+  .loading-sigs { color: var(--muted); font-size: 0.9rem; margin-top: 1rem; }
+
+  .share-section { background: var(--paper); border-top: 1px solid rgba(0,0,0,0.06); padding: 3rem 1.5rem; text-align: center; }
+  .share-url-box { display: inline-flex; align-items: center; gap: 0.75rem; background: #fff; border: 1px solid rgba(0,0,0,0.1); border-radius: 0.5rem; padding: 0.75rem 1.2rem; font-size: 0.85rem; color: var(--muted); margin: 1.5rem auto; max-width: 500px; width: 100%; cursor: pointer; transition: border-color 0.2s; }
+  .share-url-box:hover { border-color: var(--sage); }
+  .copy-label { font-size: 0.75rem; color: var(--sage); font-weight: 500; margin-left: auto; }
+  .share-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+  .share-btn { padding: 0.6rem 1.4rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 500; cursor: pointer; border: 1px solid; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .share-btn.whatsapp { background: #25d366; color: #fff; border-color: #25d366; }
+  .share-btn.twitter { background: #000; color: #fff; border-color: #000; }
+  .share-btn.copy { background: transparent; color: var(--ink); border-color: rgba(0,0,0,0.2); }
+  .share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  footer { background: var(--ink); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem 1.5rem; font-size: 0.8rem; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="noise"></div>
+  <div class="hero-inner">
+    <div class="tag">Student Petition · 2025</div>
+    <h1>It's Time to Go <em>Beyond</em> Exams</h1>
+    <p>We call on our universities, examination bodies, and government to replace high-stakes exams with fairer, more meaningful assessments — for our wellbeing, our planet, and our learning.</p>
+    <a href="#sign" class="cta-btn">Add Your Signature →</a>
+  </div>
+</section>
+
+<div class="counter-bar">
+  <div class="count" id="sigCount">—</div>
+  <div class="label">signatures and counting — goal: 1,000</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<section class="content">
+  <div class="section-label">Our Position</div>
+  <h2>Why We're Signing</h2>
+  <div class="divider"></div>
+  <div class="petition-body">
+    <p>We, the undersigned students, formally call on our universities, national examination bodies, and relevant government authorities to <strong>phase out traditional high-stakes examinations</strong> and replace them with continuous, coursework-based assessments.</p>
+    <p>This is not a call to avoid accountability — it is a call for assessment methods that are humane, equitable, and fit for the challenges of the 21st century.</p>
+  </div>
+  <div class="reasons">
+    <div class="reason-card">
+      <h3>🧠 The Mental Health Crisis</h3>
+      <p>Exam anxiety is a medically recognized condition affecting millions of students worldwide. High-stakes, single-sitting exams create extreme pressure that leads to burnout, depression, and in severe cases, self-harm. Continuous assessment distributes that pressure more humanely across the academic calendar.</p>
+    </div>
+    <div class="reason-card">
+      <h3>🌿 The Environmental Cost</h3>
+      <p>Mass examinations consume enormous quantities of paper, plastic packaging, and energy. Coursework-based systems reduce the material demands of assessment significantly, aligning education with climate responsibility.</p>
+    </div>
+    <div class="reason-card">
+      <h3>📚 Exams Measure the Wrong Things</h3>
+      <p>A 3-hour exam primarily tests memory and composure under pressure — not genuine understanding, creativity, or professional competence. Projects and portfolios paint a far more accurate picture of a student's abilities.</p>
+    </div>
+    <div class="reason-card">
+      <h3>⚖️ The Equity Problem</h3>
+      <p>Exams disproportionately disadvantage students with learning disabilities, test anxiety, and unstable home environments. Alternative assessments create a more level playing field for all learners.</p>
+    </div>
+  </div>
+  <div class="petition-body">
+    <p>We respectfully demand a formal review of examination policy, meaningful consultation with students, and a concrete roadmap toward coursework-based assessment systems.</p>
+    <p><strong>The way we learn has changed. The way we are assessed must change too.</strong></p>
+  </div>
+</section>
+
+<section class="form-section" id="sign">
+  <div class="form-inner">
+    <div class="section-label">Join the Movement</div>
+    <h2>Sign the Petition</h2>
+    <div style="height:1rem"></div>
+    <div class="success-toast" id="successToast">✅ Thank you for signing! Share this petition with your coursemates.</div>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="form-row">
+      <div class="form-group"><label>First Name *</label><input type="text" id="firstName" placeholder="e.g. Chukwuemeka" /></div>
+      <div class="form-group"><label>Last Name *</label><input type="text" id="lastName" placeholder="e.g. Okafor" /></div>
+    </div>
+    <div class="form-group"><label>Email Address *</label><input type="email" id="email" placeholder="you@university.edu" /></div>
+    <div class="form-group"><label>Institution / School *</label><input type="text" id="school" placeholder="e.g. University of Port Harcourt" /></div>
+    <div class="form-group"><label>Department (optional)</label><input type="text" id="dept" placeholder="e.g. Computer Science" /></div>
+    <button class="sign-btn" id="signBtn" onclick="submitSignature()">Sign the Petition ✍️</button>
+    <p class="privacy-note">Your email will not be shared or used for marketing. It is only used to verify unique signatures.</p>
+  </div>
+</section>
+
+<section class="signatures-section">
+  <div class="section-label">Signatories</div>
+  <h2>Who Has Signed</h2>
+  <div class="loading-sigs" id="loadingSigs">Loading signatures…</div>
+  <div class="sig-grid" id="sigGrid"></div>
+</section>
+
+<section class="share-section">
+  <div class="section-label">Spread the Word</div>
+  <h2>Share This Petition</h2>
+  <p style="color:var(--muted);font-size:0.95rem;margin-top:0.5rem">Every share brings more voices to this cause.</p>
+  <div class="share-url-box" onclick="copyLink()">
+    <span>🔗</span>
+    <span id="shareUrlText">Loading…</span>
+    <span class="copy-label" id="copyLabel">Copy</span>
+  </div>
+  <div class="share-btns">
+    <button class="share-btn whatsapp" onclick="shareWhatsApp()">📱 Share on WhatsApp</button>
+    <button class="share-btn twitter" onclick="shareTwitter()">𝕏 Share on X</button>
+    <button class="share-btn copy" onclick="copyLink()">📋 Copy Link</button>
+  </div>
+</section>
+
+<footer><p>Beyond Exams — A Student Petition &nbsp;·&nbsp; Built by students, for students.</p></footer>
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────────────────
+  // Replace these two values with your Supabase project URL and anon key
+  const SUPABASE_URL  = 'YOUR_SUPABASE_URL';       // e.g. https://xxxx.supabase.co
+  const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';  // long JWT string from Supabase dashboard
+  const GOAL = 1000;
+  // ─────────────────────────────────────────────────────────────────
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_ANON,
+    'Authorization': 'Bearer ' + SUPABASE_ANON,
+    'Prefer': 'return=representation'
+  };
+
+  async function fetchSignatures() {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/signatures?select=first_name,last_name,school&order=created_at.desc&limit=60`,
+      { headers }
+    );
+    if (!res.ok) throw new Error('Failed to load');
+    return res.json();
+  }
+
+  async function fetchCount() {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/signatures?select=id`,
+      { headers: { ...headers, 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' } }
+    );
+    const range = res.headers.get('content-range'); // e.g. "0-0/47"
+    if (range && range.includes('/')) return parseInt(range.split('/')[1]);
+    const data = await res.json();
+    return Array.isArray(data) ? data.length : 0;
+  }
+
+  async function insertSignature(payload) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/signatures`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload)
+    });
+    if (res.status === 409) throw new Error('duplicate');
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'insert_failed');
+    }
+    return res.json();
+  }
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function renderSigs(sigs, count) {
+    document.getElementById('sigCount').textContent = count.toLocaleString();
+    document.getElementById('progressFill').style.width = Math.min((count / GOAL) * 100, 100) + '%';
+    document.getElementById('loadingSigs').style.display = 'none';
+    const grid = document.getElementById('sigGrid');
+    grid.innerHTML = sigs.map(s => {
+      const name = escHtml(s.first_name + ' ' + s.last_name);
+      const initials = (s.first_name[0] + s.last_name[0]).toUpperCase();
+      return `<div class="sig-chip">
+        <div class="avatar">${initials}</div>
+        <div><div class="sig-name">${name}</div><div class="sig-school">${escHtml(s.school)}</div></div>
+      </div>`;
+    }).join('');
+  }
+
+  async function loadAll() {
+    try {
+      const [sigs, count] = await Promise.all([fetchSignatures(), fetchCount()]);
+      renderSigs(sigs, count);
+    } catch(e) {
+      document.getElementById('loadingSigs').textContent = 'Could not load signatures. Check your Supabase config.';
+    }
+  }
+
+  async function submitSignature() {
+    const first  = document.getElementById('firstName').value.trim();
+    const last   = document.getElementById('lastName').value.trim();
+    const email  = document.getElementById('email').value.trim().toLowerCase();
+    const school = document.getElementById('school').value.trim();
+    const dept   = document.getElementById('dept').value.trim();
+    const errEl  = document.getElementById('errorMsg');
+
+    errEl.style.display = 'none';
+
+    if (!first || !last || !email || !school) { showError('Please fill in all required fields.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('Please enter a valid email address.'); return; }
+
+    const btn = document.getElementById('signBtn');
+    btn.disabled = true; btn.textContent = 'Signing…';
+
+    try {
+      await insertSignature({ first_name: first, last_name: last, email, school, department: dept || null });
+      ['firstName','lastName','email','school','dept'].forEach(id => document.getElementById(id).value = '');
+      const toast = document.getElementById('successToast');
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 5000);
+      await loadAll();
+    } catch(e) {
+      if (e.message === 'duplicate') showError('This email has already signed. Thank you! 🙏');
+      else showError('Something went wrong. Please try again.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Sign the Petition ✍️';
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.style.display = 'block';
+  }
+
+  const petitionText = encodeURIComponent('I just signed the "Beyond Exams" student petition. Exams are outdated — join us! 📢 ');
+  function shareWhatsApp() { window.open('https://wa.me/?text=' + petitionText + encodeURIComponent(location.href), '_blank'); }
+  function shareTwitter()  { window.open('https://twitter.com/intent/tweet?text=' + petitionText + '&url=' + encodeURIComponent(location.href), '_blank'); }
+  function copyLink() {
+    navigator.clipboard.writeText(location.href).then(() => {
+      document.getElementById('copyLabel').textContent = 'Copied!';
+      setTimeout(() => document.getElementById('copyLabel').textContent = 'Copy', 2000);
+    });
+  }
+
+  document.getElementById('shareUrlText').textContent = location.href.length > 55 ? location.href.slice(0,52)+'…' : location.href;
+  loadAll();
+</script>
+</body>
+</html>
